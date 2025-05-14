@@ -1,2 +1,7 @@
 requests
 python-dotenv
+networkx
+matplotlib
+numpy
+scipy
+scikit-learn
