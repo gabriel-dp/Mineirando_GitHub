@@ -32,6 +32,7 @@ Alguns dados são particularmente interessantes para estabelecer conexões e ide
 | Nome da Empresa                     | String    |
 | Linguagens mais utilizadas          | String [] |
 | Quantidade média de estrelas        | Número    |
+| Data de entrada na plataforma       | String    |
 
 &nbsp;
 
@@ -48,12 +49,34 @@ Para possibilitar associações mais precisas entre os usuários, foi necessári
 | Está em uma empresa                 | Booleano  |
 | Linguagens mais utilizadas          | { nome: String, quantidade: Número} [] |
 | Quantidade média de estrelas        | Número    |
+| Tempo de plataforma (anos)          | Número    |
 
- Com os dados devidamente tratados, tornou-se possível aplicar técnicas de análise mais eficazes, permitindo relações mais robustas e representativas entre os usuários.
+Com os dados devidamente tratados, tornou-se possível aplicar técnicas de análise mais eficazes, permitindo relações mais robustas e representativas entre os usuários.
 
 &nbsp;
 
 ## 3. Análise e Resultados
+
+| Atributo       | Min   | Max       | Média   | Mediana | Desvio-padrão |
+|----------------|-------|-----------|---------|---------|---------------|
+| followers      | 0  | 42289  | 793.47  | 278  | 1876.69       |
+| following      | 0  | 955916 | 4295.90 | 411.50  | 30503.73      |
+| company        | 0  | 1      | 0.44    | 0    | 0.50          |
+| has_bio        | 0  | 1      | 0.80    | 1    | 0.40          |
+| time_in_years  | 0  | 17     | 6.31    | 6    | 3.79          |
+| public_repos   | 0  | 48307  | 116.49  | 31   | 1222.68       |
+| average_stars  | 0  | 297.14    | 3.61    | 1.10    | 11.68         |
+| languages_used | 0  | 23     | 6.35    | 6    | 3.92          |
+
+![followers](./kdd/followers.jpeg)
+![following](./kdd/following.jpeg)
+![company](./kdd/company.jpeg)
+![has_bio](./kdd/has_bio.jpeg)
+![languages_used](./kdd/languages_used.jpeg)
+![average_stars](./kdd/average_stars.jpeg)
+![time_in_years](./kdd/time_in_years.jpeg)
+![public_repos](./kdd/public_repos.jpeg)
+![heatmap](./kdd/heatmap.jpeg)
 
 &nbsp;
 
