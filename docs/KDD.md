@@ -70,17 +70,83 @@ Com os dados devidamente tratados, tornou-se possível aplicar técnicas de aná
 
 ![followers](./kdd/followers.jpeg)
 ![following](./kdd/following.jpeg)
-![company](./kdd/company.jpeg)
-![has_bio](./kdd/has_bio.jpeg)
 ![languages_used](./kdd/languages_used.jpeg)
 ![average_stars](./kdd/average_stars.jpeg)
 ![time_in_years](./kdd/time_in_years.jpeg)
 ![public_repos](./kdd/public_repos.jpeg)
+
+Ao observar os histogramas e boxplots gerados para os atributos selecionados (como número de seguidores, número de repositórios públicos, tempo de conta, entre outros), é possível concluir que a maioria desses atributos não apresenta uma distribuição uniforme. Isso significa que os valores não estão igualmente distribuídos ao longo de todo o intervalo possível.
+
+Além da análise individual das distribuições, também foi realizada uma análise de correlação entre os atributos numéricos, utilizando um heatmap de correlações baseado na correlação de Pearson.
+
 ![heatmap](./kdd/heatmap.jpeg)
+
+Essa análise nos ajuda a entender quais atributos possuem relação linear entre si, o que pode indicar dependência entre as variáveis ou mesmo redundância de informação.
+
+Principais correlações observadas:
+- Followers vs Following (0.51):
+Existe uma correlação moderada entre o número de seguidores que um usuário possui e o número de pessoas que ele segue. Isso sugere que usuários mais ativos em seguir outras contas tendem também a ter mais seguidores, o que é um comportamento comum em redes sociais.
+
+- Tempo de Uso no GitHub vs Número de Linguagens Usadas (0.29):
+Usuários com mais tempo de conta no GitHub tendem a ter usado uma maior diversidade de linguagens de programação, o que é esperado, dado o maior tempo de experiência.
+
+- Followers vs Average Stars (0.35):
+Há uma correlação moderada entre o número de seguidores e a média de estrelas recebidas nos repositórios. Isso indica que usuários mais populares (com mais seguidores) também tendem a criar projetos mais bem avaliados pela comunidade.
+
+- Has Bio vs Has Company (0.21):
+Existe uma correlação fraca entre o fato de o usuário ter preenchido a biografia e também ter informado a empresa em que trabalha. Isso sugere que usuários mais preocupados com o perfil público tendem a preencher mais informações.
+
+De forma geral, não foram observadas correlações muito altas (acima de 0.6) entre os atributos, o que indica que os atributos são relativamente independentes entre si, o que é bom para o processo de clustering, pois significa que cada variável está provavelmente adicionando uma informação única ao modelo.
+
+Os poucos casos de correlação moderada fazem sentido com o contexto social e técnico da plataforma GitHub.
 
 &nbsp;
 
-## 4. Discussão
+## 5. Clustering
+A técnica escolhida para análise foi o clustering, mais especificamente o algoritmo K-Means, por se tratar de um dataset não rotulado.
+
+O K-Means funciona dividindo os dados em K grupos, onde os pontos dentro de um mesmo grupo devem ser o mais semelhantes entre si possível, enquanto se mantenham distintos de pontos de outros grupos. Essa semelhança pe calculada utilizando distância em um espaço multidimensional dado pelos atributos selecionados.
+
+### 5.1. Escolha do número de clusters
+Para definir o número ideal de clusters, aplicamos o método do Elbow Method, que consiste em:
+
+- Rodar o K-Means com diferentes valores de K (por exemplo, de 1 até 10).
+- Plotar a curva de inércia (soma das distâncias quadradas internas a cada cluster) versus o número de clusters.
+
+![elbow](./kdd/kmeans_elbow_plot.jpeg)
+
+Foi selecionado o valor de 4 Clusters para a análise, de acordo com o método Elbow.
+
+### 5.2. Estratégias para Reduzir Overfitting:
+Embora o K-Means seja um método não supervisionado, algumas práticas foram adotadas para evitar overfitting a ruídos nos dados:
+
+- Normalização dos atributos antes da clusterização (usando Min-Max Scaling entre 0 e 1), para que nenhuma variável tivesse peso excessivo devido à escala.
+
+- Exclusão de atributos irrelevantes (como localização textual).
+
+### 5.3. Visualização
+Como o dataset possuía muitas variáveis numéricas (como número de seguidores, repositórios, média de estrelas, etc.), utilizamos PCA (Principal Component Analysis) para reduzir a dimensionalidade antes da visualização dos clusters.
+
+![clusters](./kdd/user_clusters_pca.jpeg)
+
+É possível observar que os clusters ficaram distantes um dos outros em termos dos componentes PCA, o que é um bom indicativo da eficácia do algoritmo.
+
+Foi atingido também um valor de Silhouette de aproximadamente 0.7, o que pode ser considerado satisfatório, dado a natureza da rede.
+
+### 5.4. Relacionando a rede
+Após a execução do algoritmo de clustering, foi utilizada a rede de seguidores mútuos (arquivo GraphML com o grafo social GitHub), para avaliar a densidade de conexões intra-cluster, ou seja, em média, quantos usuários se seguiam dentro do mesmo clusters, comparado a densidade média do grafo.
+
+| Cluster | Número de Arestas Internas | Número Máximo Possível de Arestas | Densidade Interna | Densidade Relativa |
+|---------|---------------------------|-----------------------------------|-------------------|--------------------|
+| 0       | 3,513                     | 5,952,975                         | 0.000590          | 6.41x              |
+| 1       | 23,849                    | 17,266,626                        | 0.001381          | 15.00x             |
+| 2       | 25,506                    | 25,336,521                        | 0.001007          | 10.93x             |
+| 3       | 437                       | 465,130                           | 0.000940          | 10.20x             |
+
+O resultado foi que todos os clusters apresentaram uma densidade de conexões significativamente maior (6x a 14x) do que o grafo geral, indicando que usuários com perfis similares (pelo clustering) tendem a se seguir mais frequentemente.
+
+
+## 6. Discussão
 
 A atividade permitiu aplicar, na prática, os conceitos da metodologia de KDD, desde a coleta até a análise de dados. Foi possível montar uma base estruturada que representasse os usuários e suas relações dentro da rede, com atributos que refletem o comportamento individual e coletivo. Mesmo com algumas limitações na coleta (como restrições de acesso a dados mais profundos via API), foi possível construir um conjunto consistente e aplicar algumas técnicas de pré-processamento, organização e análise exploratória.
 
