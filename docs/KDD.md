@@ -7,8 +7,6 @@ ESTUDANTES  = ["Gabriel de Paula", "Wasterman Apolinário"]
 PROFESSOR  =  "Vinicius Vieira"
 ```
 
-&nbsp;
-
 ## 1. Introdução
 
 Essa atividade tem como foco principal praticar a metodologia de Descoberta de Conhecimento em Bases de Dados (KDD - Knowledge Discovery in Databases). É necessário, portanto, seguir bem os passos do processo: coletar dados, estruturar a base, aplicar técnicas e refletir sobre os resultados. Ou seja, o objetivo é entender como cada etapa funciona na prática, experimentando o uso das técnicas vistas em sala.
@@ -132,6 +130,10 @@ Como o dataset possuía muitas variáveis numéricas (como número de seguidores
 É possível observar que os clusters ficaram distantes um dos outros em termos dos componentes PCA, o que é um bom indicativo da eficácia do algoritmo.
 
 Foi atingido também um valor de Silhouette de aproximadamente 0.7, o que pode ser considerado satisfatório, dado a natureza da rede.
+
+&nbsp;
+
+&nbsp;
 
 ### 5.4. Relacionando a rede
 Após a execução do algoritmo de clustering, foi utilizada a rede de seguidores mútuos (arquivo GraphML com o grafo social GitHub), para avaliar a densidade de conexões intra-cluster, ou seja, em média, quantos usuários se seguiam dentro do mesmo clusters, comparado a densidade média do grafo.
