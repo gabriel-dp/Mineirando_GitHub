@@ -1,4 +1,6 @@
 requests
+pandas
+seaborn
 python-dotenv
 networkx
 matplotlib
