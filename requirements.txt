@@ -1,9 +1,9 @@
 requests
-pandas
-seaborn
 python-dotenv
 networkx
 matplotlib
 numpy
 scipy
 scikit-learn
+pandas
+seaborn
